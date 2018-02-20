@@ -1,21 +1,36 @@
 const args = process.argv.slice(2);
+const onError = require(`./src/error`).execute;
+const getHelp = require(`./src/help`).execute;
+const getAuthor = require(`./src/author`).execute;
+const getDescription = require(`./src/description`).execute;
+const getLicense = require(`./src/license`).execute;
+const getVersion = require(`./src/version`).execute;
 
 if (args.length > 0) {
+  console.log(args[0]);
   switch (args[0]) {
     case `--version`:
-      console.log(`v.0.0.1`);
+      getVersion();
       break;
 
     case `--help`:
-      console.log(`Доступные команды:`);
-      console.log(`--help    — печатает этот текст;`);
-      console.log(`--version — печатает версию приложения`);
+      getHelp();
+      break;
+
+    case `--author`:
+      getAuthor();
+      break;
+
+    case `--license`:
+      getLicense();
+      break;
+
+    case `--description`:
+      getDescription();
       break;
 
     default:
-      console.error(`Неизвестная команда ${args[0]}`);
-      console.error(`Чтобы прочитать правила использования приложения, наберите "--help"`);
-      process.exit(1);
+      onError(args[0]);
       break;
   }
 } else {

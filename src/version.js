@@ -4,6 +4,8 @@ module.exports = {
   name: `version`,
   description: `Shows current version`,
   execute() {
-    console.log(`v${packageInfo.version}`);
+    const colors = [`red`, `green`, `blue`];
+    console.log(`v${packageInfo.version.split(`.`).map((it, i) =>
+      it[colors[i]]).join(`.`)}`);
   }
 };

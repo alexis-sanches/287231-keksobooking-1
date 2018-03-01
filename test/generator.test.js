@@ -65,6 +65,7 @@ describe(`Generate data`, () => {
     assert.equal(typeof generateEntity().offer.rooms, `number`);
     assert.equal(typeof generateEntity().location.x, `number`);
     assert.equal(typeof generateEntity().location.y, `number`);
+    assert.equal(typeof generateEntity().date, `number`);
   });
 
   it(`should return a price within a range`, () => {
@@ -120,5 +121,13 @@ describe(`Generate data`, () => {
 
     assert.ok(x <= MAX_X && x >= MIN_X);
     assert.ok(y <= MAX_Y && y >= MIN_Y);
+  });
+
+  it(`should return a timestamp within 7 days from now`, () => {
+    const [DAYS, HOURS, MINUTES, SECONDS] = [7, 24, 60, 60];
+    const now = Math.round(new Date().getTime() / 1000);
+    const entityDate = generateEntity().date;
+
+    assert.ok(entityDate >= now - DAYS * HOURS * MINUTES * SECONDS);
   });
 });

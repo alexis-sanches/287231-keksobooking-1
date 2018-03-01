@@ -21,11 +21,17 @@ const getRandomElementsFromArray = (arr, numberOfElements) => {
 const getRandomArrayElement = (array) =>
   array[getRandomArrayIndex(array)];
 
+const generateDate = () => {
+  const now = new Date();
+  return Math.round(new Date(now.getFullYear(), now.getMonth(), now.getDate() - getRandomNumber(0, 7) + 1).getTime() / 1000);
+};
+
 module.exports = {
   name: `utils`,
   description: `Some common functions`,
   getRandomNumber,
   getRandomArrayIndex,
   getRandomElementsFromArray,
-  getRandomArrayElement
+  getRandomArrayElement,
+  generateDate,
 };

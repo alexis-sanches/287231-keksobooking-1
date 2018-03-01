@@ -1,4 +1,10 @@
-const {getRandomNumber, getRandomArrayElement, getRandomArrayIndex, getRandomElementsFromArray} = require(`./utils`);
+const {
+  getRandomNumber,
+  getRandomArrayElement,
+  getRandomArrayIndex,
+  getRandomElementsFromArray,
+  generateDate
+} = require(`./utils`);
 
 const [MIN_X, MAX_X, MIN_Y, MAX_Y] = [300, 900, 150, 500];
 const [MIN_PRICE, MAX_PRICE] = [1000, 1000000];
@@ -70,7 +76,8 @@ module.exports = {
       },
       location: {
         x, y
-      }
+      },
+      date: generateDate()
     };
   },
   MIN_X,

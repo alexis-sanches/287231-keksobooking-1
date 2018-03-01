@@ -1,5 +1,22 @@
 const assert = require(`assert`);
-const generateEntity = require(`../src/generator`).generateEntity;
+const {
+  generateEntity,
+  MIN_X,
+  MAX_X,
+  MIN_Y,
+  MAX_Y,
+  MIN_PRICE,
+  MAX_PRICE,
+  MIN_GUESTS,
+  MAX_GUESTS,
+  MIN_ROOMS,
+  MAX_ROOMS,
+  titles,
+  types,
+  times,
+  features,
+  photos,
+} = require(`../src/generator`);
 
 describe(`Generate data`, () => {
   it(`should not return undefined`, () => {
@@ -27,22 +44,10 @@ describe(`Generate data`, () => {
   });
 
   it(`should return an offer title within a range of available titles`, () => {
-    const titles = [
-      `Большая уютная квартира`,
-      `Маленькая неуютная квартира`,
-      `Огромный прекрасный дворец`,
-      `Маленький ужасный дворец`,
-      `Красивый гостевой домик`,
-      `Некрасивый негостеприимный домик`,
-      `Уютное бунгало далеко от моря`,
-      `Неуютное бунгало по колено в воде`
-    ];
-
     assert.notEqual(titles.indexOf(generateEntity().offer.title), -1);
   });
 
   it(`should return a valid string on offer.address`, () => {
-    const [MIN_X, MAX_X, MIN_Y, MAX_Y] = [300, 900, 150, 500];
     const address = generateEntity().offer.address;
     const x = Number(address.slice(0, 3));
     const y = Number(address.slice(5, 8));
@@ -63,58 +68,34 @@ describe(`Generate data`, () => {
   });
 
   it(`should return a price within a range`, () => {
-    const [MIN_PRICE, MAX_PRICE] = [1000, 1000000];
     const price = generateEntity().offer.price;
 
     assert.ok(price >= MIN_PRICE && price <= MAX_PRICE);
   });
 
   it(`should return a number of guests within a range`, () => {
-    const [MIN_GUESTS, MAX_GUESTS] = [1, 5];
     const guests = generateEntity().offer.guests;
 
     assert.ok(guests >= MIN_GUESTS && guests <= MAX_GUESTS);
   });
 
   it(`should return a number of rooms within a range`, () => {
-    const [MIN_ROOMS, MAX_ROOMS] = [1, 5];
     const rooms = generateEntity().offer.rooms;
 
     assert.ok(rooms >= MIN_ROOMS && rooms <= MAX_ROOMS);
   });
 
   it(`should return an offer type within a range of available types`, () => {
-    const types = [
-      `flat`,
-      `palace`,
-      `house`,
-      `bungalo`
-    ];
-
     assert.notEqual(types.indexOf(generateEntity().offer.type), -1);
   });
 
   it(`should return an offer checkin and checkout within a range of available times`, () => {
-    const times = [
-      `12:00`,
-      `13:00`,
-      `14:00`
-    ];
-
     assert.notEqual(times.indexOf(generateEntity().offer.checkin), -1);
     assert.notEqual(times.indexOf(generateEntity().offer.checkout), -1);
   });
 
   it(`should return a valid array of features`, () => {
     const offerFeatures = generateEntity().offer.features;
-    const features = [
-      `wifi`,
-      `dishwasher`,
-      `parking`,
-      `washer`,
-      `elevator`,
-      `conditioner`
-    ];
 
     assert.ok(Array.isArray(offerFeatures));
     assert.ok(offerFeatures.length <= features.length);
@@ -123,11 +104,6 @@ describe(`Generate data`, () => {
 
   it(`should return a valid array of photos`, () => {
     const offerPhotos = generateEntity().offer.photos;
-    const photos = [
-      `http://o0.github.io/assets/images/tokyo/hotel1.jpg`,
-      `http://o0.github.io/assets/images/tokyo/hotel2.jpg`,
-      `http://o0.github.io/assets/images/tokyo/hotel3.jpg`
-    ];
 
     assert.ok(Array.isArray(offerPhotos));
     assert.equal(offerPhotos.length, photos.length);
@@ -139,7 +115,6 @@ describe(`Generate data`, () => {
   });
 
   it(`should return 2 numbers within a range on location`, () => {
-    const [MIN_X, MAX_X, MIN_Y, MAX_Y] = [300, 900, 150, 500];
     const x = generateEntity().location.x;
     const y = generateEntity().location.y;
 

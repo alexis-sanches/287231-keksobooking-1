@@ -1,10 +1,9 @@
-const getRandomElementFromArray = require(`./utils`).getRandomElementFromArray;
-const getRandomNumber = require(`./utils`).getRandomNumber;
+const {getRandomNumber, getRandomArrayElement, getRandomArrayIndex, getRandomElementsFromArray} = require(`./utils`);
 
 const [MIN_X, MAX_X, MIN_Y, MAX_Y] = [300, 900, 150, 500];
-
-const x = getRandomNumber(MIN_X, MAX_X);
-const y = getRandomNumber(MIN_Y, MAX_Y);
+const [MIN_PRICE, MAX_PRICE] = [1000, 1000000];
+const [MIN_GUESTS, MAX_GUESTS] = [1, 5];
+const [MIN_ROOMS, MAX_ROOMS] = [1, 5];
 
 const titles = [
   `Большая уютная квартира`,
@@ -49,20 +48,23 @@ module.exports = {
   name: `generator`,
   description: `Generates random data`,
   generateEntity() {
+    const x = getRandomNumber(MIN_X, MAX_X);
+    const y = getRandomNumber(MIN_Y, MAX_Y);
+
     return {
       author: {
         avatar: `https://image.com/123.jpg`
       },
       offer: {
-        title: getRandomElementFromArray(titles),
+        title: getRandomArrayElement(titles),
         address: `${x}, ${y}`,
-        price: getRandomNumber(1000, 1000000),
-        type: getRandomElementFromArray(types),
-        guests: getRandomNumber(1, 5),
-        rooms: getRandomNumber(1, 5),
-        checkin: getRandomElementFromArray(times),
-        checkout: getRandomElementFromArray(times),
-        features: [features[2], features[1], features[4]],
+        price: getRandomNumber(MIN_PRICE, MAX_PRICE),
+        type: getRandomArrayElement(types),
+        guests: getRandomNumber(MIN_GUESTS, MAX_GUESTS),
+        rooms: getRandomNumber(MIN_ROOMS, MAX_ROOMS),
+        checkin: getRandomArrayElement(times),
+        checkout: getRandomArrayElement(times),
+        features: getRandomElementsFromArray(features, getRandomArrayIndex(features)),
         description: ``,
         photos
       },
@@ -70,5 +72,21 @@ module.exports = {
         x, y
       }
     };
-  }
+  },
+  MIN_X,
+  MAX_X,
+  MIN_Y,
+  MAX_Y,
+  MIN_PRICE,
+  MAX_PRICE,
+  MIN_GUESTS,
+  MAX_GUESTS,
+  MIN_ROOMS,
+  MAX_ROOMS,
+  titles,
+  types,
+  times,
+  features,
+  photos,
+
 };

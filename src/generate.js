@@ -1,4 +1,3 @@
-const fs = require(`fs`);
 const generateEntity = require(`./generator/generator`).generateEntity;
 
 module.exports = {

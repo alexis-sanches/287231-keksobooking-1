@@ -16,7 +16,7 @@ const {
   times,
   features,
   photos,
-} = require(`../src/generator`);
+} = require(`./src/generator/generator`);
 
 describe(`Generate data`, () => {
   it(`should not return undefined`, () => {

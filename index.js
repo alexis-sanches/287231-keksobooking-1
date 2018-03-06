@@ -1,6 +1,6 @@
 const readline = require(`readline`);
 const fs = require(`fs`);
-const promisify = require(`util`).promisify;
+const {promisify} = require(`util`);
 
 const onError = require(`./src/error`).execute;
 const getHelp = require(`./src/help`).execute;
@@ -28,16 +28,18 @@ const prompt = (message) => {
 const generateData = async () => {
   const number = await prompt(`Введите количество объявлений для генерации: `);
   const path = `${await prompt(`Укажите путь к файлу: `)}/data.json`;
-  console.log(path);
+  let exists = false;
 
   try {
-    console.log(path);
-    await promisify(fs.writeFile)(path, JSON.stringify(generate(number)));
+    await promisify(fs.readFile)(path);
+    exists = true;
   } catch (e) {
-    if (e.code !== `EEXIST`) {
-      throw e;
+    if (e.code === `ENOENT`) {
+      await promisify(fs.writeFile)(path, JSON.stringify(generate(number)));
     }
-    console.log(e);
+  }
+
+  if (exists) {
     const write = await prompt(`Файл уже существует. Перезаписать? (y/n): `) === `y`;
     if (write) {
       await promisify(fs.unlink)(path);
@@ -71,8 +73,10 @@ if (args.length > 0) {
       break;
 
     case `--generate`:
-      generateData().catch((err) =>
-        console.error(err));
+      generateData().then(() => process.exit(0)).catch((err) => {
+        console.error(err);
+        process.exit(1);
+      });
       break;
 
     default:

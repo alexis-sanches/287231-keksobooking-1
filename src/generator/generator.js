@@ -4,7 +4,7 @@ const {
   getRandomArrayIndex,
   getRandomElementsFromArray,
   generateDate
-} = require(`./utils`);
+} = require(`../utils`);
 
 const [MIN_X, MAX_X, MIN_Y, MAX_Y] = [300, 900, 150, 500];
 const [MIN_PRICE, MAX_PRICE] = [1000, 1000000];
@@ -95,5 +95,4 @@ module.exports = {
   times,
   features,
   photos,
-
 };

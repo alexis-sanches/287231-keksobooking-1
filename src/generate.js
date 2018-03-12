@@ -31,8 +31,19 @@ const generateData = (number) => {
 
 const execute = async () => {
   const number = await prompt(`Введите количество объявлений для генерации: `);
-  const path = `${await prompt(`Укажите путь к файлу: `)}/data.json`;
+  const dir = await prompt(`Укажите путь к файлу: `);
+  const path = dir ? `./${dir}/data.json` : `./data.json`;
   let exists = false;
+
+  if (dir) {
+    try {
+      await promisify(fs.mkdir)(dir);
+    } catch (e) {
+      if (e.code !== `EEXIST`) {
+        console.error(e);
+      }
+    }
+  }
 
   try {
     await promisify(fs.readFile)(path);

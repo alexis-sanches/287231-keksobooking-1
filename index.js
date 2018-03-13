@@ -4,6 +4,7 @@ const getAuthor = require(`./src/author`).execute;
 const getDescription = require(`./src/description`).execute;
 const getLicense = require(`./src/license`).execute;
 const getVersion = require(`./src/version`).execute;
+const runServer = require(`./src/server`).run;
 
 const args = process.argv.slice(2);
 const generate = require(`./src/generate`).execute;
@@ -36,6 +37,15 @@ if (args.length > 0) {
         console.error(err);
         process.exit(1);
       });
+      break;
+
+    case `--server`:
+      if (typeof args[1] === `number`) {
+        runServer(args[1]);
+      } else {
+        runServer();
+      }
+
       break;
 
     default:

@@ -3,8 +3,6 @@ const url = require(`url`);
 const fs = require(`fs`);
 const {promisify} = require(`util`);
 const path = require(`path`);
-const stat = promisify(fs.stat);
-const readdir = promisify(fs.readdir);
 const readfile = promisify(fs.readFile);
 
 const EXTENSION_MAP = {
@@ -16,11 +14,10 @@ const EXTENSION_MAP = {
 
 const HOSTNAME = `127.0.0.1`;
 
-const readFile = async (path, res) => {
-  const data = await readFile(path);
-  console.log(data);
-  const extention = path.extname(path);
-  res.setHeader(`content-type`, EXTENSION_MAP[extention] || `text/plain`);
+const readFile = async (pathname, res) => {
+  const data = await readfile(pathname);
+  const extension = path.extname(pathname);
+  res.setHeader(`content-type`, EXTENSION_MAP[extension.slice(1)] || `text/plain`);
   res.setHeader(`content-length`, Buffer.byteLength(data));
   res.end(data);
 };
@@ -30,7 +27,6 @@ const staticFolder = `${process.cwd()}/static`;
 const server = http.createServer((req, res) => {
   const pathname = url.parse(req.url).pathname;
   const absolutePath = pathname === `/` ? staticFolder + `/index.html` : staticFolder + pathname;
-  console.log(pathname, absolutePath);
 
   (async () => {
     try {
@@ -47,8 +43,6 @@ const server = http.createServer((req, res) => {
     });
     res.end(e.message);
   });
-
-
 });
 
 module.exports = {
